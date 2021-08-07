@@ -5,6 +5,7 @@ import storage from 'redux-persist/lib/storage';
 // slices
 import auth from './slices/auth';
 import settings from './slices/settings';
+import form from './slices/form';
 
 // persist config -------------------------------------------
 
@@ -30,7 +31,8 @@ const settingsPersistConfig = {
 const store = configureStore({
   reducer: {
     auth: persistReducer(authPersistConfig, auth),
-    settings: persistReducer(settingsPersistConfig, settings)
+    settings: persistReducer(settingsPersistConfig, settings),
+    form
   },
   middleware: getDefaultMiddleware({
     serializableCheck: false,

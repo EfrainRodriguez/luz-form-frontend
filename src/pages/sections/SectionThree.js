@@ -19,16 +19,11 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import * as Yup from 'yup';
 // input mask
 import InputMask from 'react-input-mask';
+// redux
+import { useDispatch, useSelector } from 'react-redux';
+import { changeFormData } from '../../store/slices/form';
 
-const SectionThree = ({
-  zipCode,
-  address,
-  number,
-  neighborhood,
-  complement,
-  state,
-  city
-}) => {
+const SectionThree = () => {
   const fieldSchema = Yup.object().shape({
     zipCode: Yup.string().required('Por favor informe o CEP'),
     address: Yup.string().required('Por favor informe o endereço'),
@@ -37,6 +32,18 @@ const SectionThree = ({
     city: Yup.string().required('Por favor informe a cidade')
   });
 
+  const {
+    formData: {
+      zipCode,
+      address,
+      number,
+      neighborhood,
+      complement,
+      state,
+      city
+    }
+  } = useSelector((state) => state.form);
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const formik = useFormik({
@@ -50,7 +57,7 @@ const SectionThree = ({
       complement: complement || ''
     },
     validationSchema: fieldSchema,
-    onSubmit: (data) => console.log(data) // onSubmit(data)
+    onSubmit: (data) => dispatch(changeFormData(data))
   });
 
   const {

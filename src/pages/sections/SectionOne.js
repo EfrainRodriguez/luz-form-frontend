@@ -14,14 +14,15 @@ import {
   FormControl,
   Autocomplete,
   FormControlLabel,
-  Checkbox,
-  RadioGroup,
-  Radio
+  Checkbox
 } from '@material-ui/core';
 // formik
 import { useFormik, Form, FormikProvider } from 'formik';
 // yup
 import * as Yup from 'yup';
+// redux
+import { useDispatch, useSelector } from 'react-redux';
+import { changeFormData } from '../../store/slices/form';
 // components
 import {
   RadioGroupForm,
@@ -176,19 +177,7 @@ const contactResponsibleOptions = [
   }
 ];
 
-const SectionOne = ({
-  gender,
-  age,
-  schoolLevel,
-  problem,
-  problemArea,
-  problemSolution,
-  problemCause,
-  problemResponsible,
-  contactResponsible,
-  problemContacting,
-  onSubmit
-}) => {
+const SectionOne = () => {
   const fieldSchema = Yup.object().shape({
     gender: Yup.string().required('Por favor informe seu gênero'),
     age: Yup.number().required('Por favor informe sua idade'),
@@ -215,6 +204,21 @@ const SectionOne = ({
     )
   });
 
+  const {
+    formData: {
+      gender,
+      age,
+      schoolLevel,
+      problem,
+      problemArea,
+      problemSolution,
+      problemCause,
+      problemResponsible,
+      contactResponsible,
+      problemContacting
+    }
+  } = useSelector((state) => state.form);
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const formik = useFormik({
@@ -233,7 +237,7 @@ const SectionOne = ({
     validationSchema: fieldSchema,
     onSubmit: (data) => {
       history.push('/form/section-two');
-      // onSubmit(data)
+      dispatch(changeFormData(data));
     }
   });
 
