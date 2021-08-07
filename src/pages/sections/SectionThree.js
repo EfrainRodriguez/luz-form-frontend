@@ -1,4 +1,6 @@
 import React from 'react';
+// router
+import { useHistory } from 'react-router-dom';
 // prop types
 import PropTypes from 'prop-types';
 // material
@@ -34,6 +36,8 @@ const SectionThree = ({
     state: Yup.string().required('Por favor informe o estado'),
     city: Yup.string().required('Por favor informe a cidade')
   });
+
+  const history = useHistory();
 
   const formik = useFormik({
     initialValues: {
@@ -189,9 +193,16 @@ const SectionThree = ({
             </CardContent>
           </Card>
 
-          <Box display="flex" justifyContent="flex-end">
+          <Box display="flex" justifyContent="space-between">
+            <Button
+              variant="outlined"
+              size="large"
+              onClick={() => history.push('/form/section-two')}
+            >
+              Voltar
+            </Button>
             <Button variant="contained" type="primary" size="large">
-              Avanzar
+              Enviar
             </Button>
           </Box>
         </Form>

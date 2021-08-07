@@ -1,4 +1,6 @@
 import React from 'react';
+// router
+import { useHistory } from 'react-router-dom';
 // prop types
 import PropTypes from 'prop-types';
 // material
@@ -132,9 +134,10 @@ const SectionTwo = ({
     incentiveText: Yup.string().required('Este campo é requerido'),
     acceptContact: Yup.string().required(
       'Por favor informe se gostaria ser contatado'
-    ),
-    contact: Yup.string().required('Por favor informe um meio de contato')
+    )
   });
+
+  const history = useHistory();
 
   const formik = useFormik({
     initialValues: {
@@ -150,7 +153,10 @@ const SectionTwo = ({
       contact: contact || ''
     },
     validationSchema: fieldSchema,
-    onSubmit: (data) => console.log(data) // onSubmit(data)
+    onSubmit: (data) => {
+      history.push('/form/section-three');
+      // onSubmit(data)
+    }
   });
 
   const {
@@ -345,9 +351,16 @@ const SectionTwo = ({
             </Card>
           ) : null}
 
-          <Box display="flex" justifyContent="flex-end">
+          <Box display="flex" justifyContent="space-between">
+            <Button
+              variant="outlined"
+              size="large"
+              onClick={() => history.push('/form/section-one')}
+            >
+              Voltar
+            </Button>
             <Button variant="contained" type="primary" size="large">
-              Avanzar
+              Avançar
             </Button>
           </Box>
         </Form>

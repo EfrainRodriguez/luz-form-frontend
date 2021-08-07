@@ -1,4 +1,6 @@
 import React from 'react';
+// router
+import { useHistory } from 'react-router-dom';
 // prop types
 import PropTypes from 'prop-types';
 // material
@@ -210,11 +212,10 @@ const SectionOne = ({
     ),
     contactResponsible: Yup.string().required(
       'Por favor informe se já tentou contatar os responsáveis'
-    ),
-    problemContacting: Yup.string().required(
-      'Por favor informe o desafio que teve para contatar os responsáveis'
     )
   });
+
+  const history = useHistory();
 
   const formik = useFormik({
     initialValues: {
@@ -230,7 +231,10 @@ const SectionOne = ({
       problemContacting: problemContacting || ''
     },
     validationSchema: fieldSchema,
-    onSubmit: (data) => console.log(data) // onSubmit(data)
+    onSubmit: (data) => {
+      history.push('/form/section-two');
+      // onSubmit(data)
+    }
   });
 
   const {
@@ -527,7 +531,7 @@ const SectionOne = ({
 
           <Box display="flex" justifyContent="flex-end">
             <Button variant="contained" type="primary" size="large">
-              Avanzar
+              Avançar
             </Button>
           </Box>
         </Form>
