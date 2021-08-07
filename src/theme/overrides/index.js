@@ -13,6 +13,7 @@ import Popover from './Popover';
 import Tabs from './Tabs';
 import Switch from './Switch';
 import Table from './Table';
+import Select from './Select';
 
 // ----------------------------------------------------------------------
 
@@ -31,6 +32,7 @@ export default function ComponentsOverrides(theme) {
     Popover(theme),
     Tabs(theme),
     Switch(theme),
-    Table(theme)
+    Table(theme),
+    Select(theme)
   );
 }

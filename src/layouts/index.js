@@ -1,4 +1,6 @@
 import React from 'react';
+// prop types
+import PropTypes from 'prop-types';
 // material
 import { styled } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
@@ -20,13 +22,17 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ---------------------------------------------------------
 
-const PageLayout = () => (
+const PageLayout = ({ children }) => (
   <Container>
     <ContentStyle>
       <PageHeader />
-      <SectionCard />
+      <SectionCard>{children}</SectionCard>
     </ContentStyle>
   </Container>
 );
+
+PageLayout.propTypes = {
+  children: PropTypes.node
+};
 
 export default PageLayout;
