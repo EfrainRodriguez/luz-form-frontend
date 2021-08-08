@@ -1,29 +1,26 @@
 // axios
 import axios from 'axios';
-// redux
-import { reduxStore } from '../App';
-import { logout, fetchRefreshToken } from '../store/slices/auth';
 
-const axiosInstance = axios.create();
+const api = axios.create();
+const viacep = axios.create();
 
-axiosInstance.defaults.baseURL = process.env.REACT_APP_URL_API;
+api.defaults.baseURL = process.env.REACT_APP_URL_API;
+api.defaults.headers.authorization =
+  'Basic lEo15jYfnTSgBO5s9Y1amu9772J3r7DMdKznIRmNBpX2EO7eYTJob3186P5Wth0euZzByJVa7EERLbUGTbVUqsbEw5WoK0Oi9WJv4kyNglOTtFmn47xbrilPqf49dpNSw8hawH6xGKtzPYdTvsEQh6sHCVPyIA8TiynhgA6vGdnCZlRFZ1JO0ucBfg3laIACORyoTWP8ZF1pvWuwZV4pviC15ChMJwy6WxZCNtjiokboaw1H3TCJq1uoSXXB7dnO';
+viacep.defaults.baseURL = 'https://viacep.com.br';
 
-axiosInstance.interceptors.response.use(
+api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
     if (error.response) {
       if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
-        reduxStore.dispatch(fetchRefreshToken());
-        return axiosInstance(originalRequest);
-      }
-      if (error.response.status === 403) {
-        return reduxStore.dispatch(logout());
+        return api(originalRequest);
       }
     }
     return Promise.reject(error);
   }
 );
 
-export default axiosInstance;
+export { api, viacep };

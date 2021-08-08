@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // router
 import { useHistory } from 'react-router-dom';
 // prop types
@@ -22,7 +22,7 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import * as Yup from 'yup';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { changeFormData } from '../../store/slices/form';
+import { changeFormData, fetchFormList } from '../../store/slices/form';
 // components
 import {
   RadioGroupForm,
@@ -235,6 +235,7 @@ const SectionOne = () => {
       problemContacting: problemContacting || ''
     },
     validationSchema: fieldSchema,
+    enableReinitialize: true,
     onSubmit: (data) => {
       history.push('/form/section-two');
       dispatch(changeFormData(data));
@@ -262,6 +263,10 @@ const SectionOne = () => {
       values['problemResponsible'].filter((item) => item !== event.target.name)
     );
   };
+
+  useEffect(() => {
+    dispatch(fetchFormList());
+  }, [dispatch]);
 
   return (
     <>

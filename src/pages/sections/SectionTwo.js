@@ -160,20 +160,14 @@ const SectionTwo = () => {
       contact: contact || ''
     },
     validationSchema: fieldSchema,
+    enableReinitialize: true,
     onSubmit: (data) => {
       history.push('/form/section-three');
       dispatch(changeFormData(data));
     }
   });
 
-  const {
-    errors,
-    touched,
-    values,
-    handleSubmit,
-    getFieldProps,
-    setFieldValue
-  } = formik;
+  const { errors, touched, values, handleSubmit, getFieldProps } = formik;
 
   return (
     <>
