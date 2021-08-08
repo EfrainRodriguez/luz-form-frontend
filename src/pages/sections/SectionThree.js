@@ -91,7 +91,7 @@ const SectionThree = () => {
                 buscar.
               </Typography>
               <Grid mb={4} container spacing={2} alignItems="center">
-                <Grid item xs={24} md={4}>
+                <Grid item xs={8} md={4}>
                   <InputMask mask="99.999-999" {...getFieldProps('zipCode')}>
                     {() => (
                       <TextField
@@ -108,7 +108,7 @@ const SectionThree = () => {
                     )}
                   </InputMask>
                 </Grid>
-                <Grid item xs={24} md={2}>
+                <Grid item xs={4} md={2}>
                   <Button
                     fullWidth
                     variant="outlined"

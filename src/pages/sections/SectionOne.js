@@ -14,7 +14,8 @@ import {
   FormControl,
   Autocomplete,
   FormControlLabel,
-  Checkbox
+  Checkbox,
+  Grid
 } from '@material-ui/core';
 // formik
 import { useFormik, Form, FormikProvider } from 'formik';
@@ -322,39 +323,51 @@ const SectionOne = () => {
 
           <Card sx={{ mb: 4 }}>
             <CardContent>
-              <Typography mb={1} variant="h6">
-                Qual a sua idade?
-              </Typography>
-              <TextField
-                name="age"
-                type="number"
-                placeholder="Informe sua idade"
-                {...getFieldProps('age')}
-                error={Boolean(touched.age && errors.age)}
-                helperText={touched.age && errors.age}
-                InputLabelProps={{
-                  shrink: true
-                }}
-              />
+              <Grid container>
+                <Grid item xs={24} sm={4} md={4}>
+                  <Typography mb={1} variant="h6">
+                    Qual a sua idade?
+                  </Typography>
+                  <TextField
+                    fullWidth
+                    name="age"
+                    type="number"
+                    placeholder="Informe sua idade"
+                    {...getFieldProps('age')}
+                    error={Boolean(touched.age && errors.age)}
+                    helperText={touched.age && errors.age}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+                </Grid>
+              </Grid>
             </CardContent>
           </Card>
 
           <Card sx={{ mb: 4 }}>
             <CardContent>
-              <FormControl
-                variant="outlined"
-                error={Boolean(touched['schoolLevel'] && errors['schoolLevel'])}
-              >
-                <SelectForm
-                  name="schoolLevel"
-                  label="Qual o sua escolaridade?"
-                  values={values}
-                  touched={touched}
-                  errors={errors}
-                  options={schoolLevelOptions}
-                  fieldProps={getFieldProps('schoolLevel')}
-                />
-              </FormControl>
+              <Grid container>
+                <Grid item xs={24} sm={4} md={4}>
+                  <FormControl
+                    fullWidth
+                    variant="outlined"
+                    error={Boolean(
+                      touched['schoolLevel'] && errors['schoolLevel']
+                    )}
+                  >
+                    <SelectForm
+                      name="schoolLevel"
+                      label="Qual o sua escolaridade?"
+                      values={values}
+                      touched={touched}
+                      errors={errors}
+                      options={schoolLevelOptions}
+                      fieldProps={getFieldProps('schoolLevel')}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
             </CardContent>
           </Card>
 
