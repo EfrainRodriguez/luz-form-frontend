@@ -153,7 +153,7 @@ const SectionTwo = () => {
   const getAcceptContact = (data) => {
     if (data === undefined || data === null) return '';
 
-    if (data === true) return 'yes';
+    if (data === 1) return 'yes';
 
     return 'no';
   };
@@ -178,7 +178,7 @@ const SectionTwo = () => {
       dispatch(
         changeFormData({
           ...data,
-          acceptContact: data.acceptContact === 'yes'
+          acceptContact: data.acceptContact === 'yes' ? 1 : 0
         })
       );
       history.push('/form/section-three');
@@ -221,7 +221,7 @@ const SectionTwo = () => {
             </CardContent>
           </Card>
 
-          {/* <Card sx={{ mb: 4 }}>
+          <Card sx={{ mb: 4 }}>
             <CardContent>
               <InterestQuestion
                 name="contactByApp"
@@ -233,7 +233,7 @@ const SectionTwo = () => {
                 label="APP - Um aplicativo onde você colocaria fotos e detalhes sobre os seu problema e enviaria diretamente para os responsáveis, podendo interagir com outras pessoas do seu bairro que também passam pelo mesmo problema."
               />
             </CardContent>
-          </Card> */}
+          </Card>
 
           <Card sx={{ mb: 4 }}>
             <CardContent>

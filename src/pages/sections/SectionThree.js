@@ -68,7 +68,12 @@ const SectionThree = () => {
     enableReinitialize: true,
     validationSchema: fieldSchema,
     onSubmit: (data) => {
-      dispatch(changeFormData(data));
+      dispatch(
+        changeFormData({
+          ...data,
+          zipCode: data.zipCode.replace(/\D/g, '')
+        })
+      );
       dispatch(sendFormData()).then(() => {
         dispatch(setFilledForm(4));
         history.push('/form/final');

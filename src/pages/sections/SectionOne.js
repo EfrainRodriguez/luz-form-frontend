@@ -230,7 +230,7 @@ const SectionOne = () => {
   const getContactedResponsible = (data) => {
     if (data === undefined || data === null) return '';
 
-    if (data === true) return 'yes';
+    if (data === 1) return 'yes';
 
     return 'no';
   };
@@ -265,7 +265,7 @@ const SectionOne = () => {
           ...data,
           problemArea: data.problemArea.map((item) => item.value).toString(),
           problemResponsible: data.problemResponsible.toString(),
-          contactedResponsible: data.contactedResponsible === 'yes'
+          contactedResponsible: data.contactedResponsible === 'yes' ? 1 : 0
         })
       );
       history.push('/form/section-two');
