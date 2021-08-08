@@ -6,6 +6,8 @@ export const formSlice = createSlice({
   name: 'form',
   initialState: {
     formData: {},
+    step: 0,
+    filledForm: 1,
     isLoading: false
   },
   reducers: {
@@ -20,11 +22,23 @@ export const formSlice = createSlice({
     },
     setLoading: (state, action) => {
       state.isLoading = action.payload;
+    },
+    setStep: (state, action) => {
+      state.step = action.payload;
+    },
+    setFilledForm: (state, action) => {
+      state.filledForm = action.payload;
     }
   }
 });
 
-export const { setFormData, changeFormData, setLoading } = formSlice.actions;
+export const {
+  setFormData,
+  changeFormData,
+  setLoading,
+  setStep,
+  setFilledForm
+} = formSlice.actions;
 
 export default formSlice.reducer;
 
@@ -59,7 +73,7 @@ export const fetchFormList = () => (dispatch) => {
   dispatch(setLoading(true));
   return new Promise((resolve, reject) => {
     api
-      .get(`/`)
+      .get(`/form/problem`)
       .then((response) => {
         dispatch(setLoading(false));
         resolve(response);
@@ -80,7 +94,7 @@ export const sendFormData = () => (dispatch, getState) => {
 
   return new Promise((resolve, reject) => {
     api
-      .post(`/`, formData)
+      .post(`/form/problem`, formData)
       .then((response) => {
         dispatch(setLoading(false));
         resolve(response);

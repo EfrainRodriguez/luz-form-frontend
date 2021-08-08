@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // router
 import { useHistory } from 'react-router-dom';
 // prop types
@@ -24,7 +24,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   changeFormData,
   searchAddressByZipcode,
-  sendFormData
+  sendFormData,
+  setStep,
+  setFilledForm
 } from '../../store/slices/form';
 // loading page
 import LoadingPage from '../LoadingPage';
@@ -66,9 +68,16 @@ const SectionThree = () => {
     enableReinitialize: true,
     validationSchema: fieldSchema,
     onSubmit: (data) => {
-      console.log(data);
-      dispatch(changeFormData(data));
-      dispatch(sendFormData());
+      dispatch(
+        changeFormData({
+          ...data,
+          zipCode: data.zipCode.replace(/\D/g, '')
+        })
+      );
+      dispatch(sendFormData()).then(() => {
+        dispatch(setFilledForm(4));
+        history.push('/form/final');
+      });
     }
   });
 
@@ -77,6 +86,14 @@ const SectionThree = () => {
   const handleSearchAddress = (searchParam) => {
     dispatch(searchAddressByZipcode(searchParam.replace(/\D/g, '')));
   };
+
+  useEffect(() => {
+    dispatch(setStep(2));
+  }, [dispatch]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>

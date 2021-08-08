@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // router
 import { useHistory } from 'react-router-dom';
 // prop types
@@ -19,7 +19,11 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import * as Yup from 'yup';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { changeFormData } from '../../store/slices/form';
+import {
+  changeFormData,
+  setStep,
+  setFilledForm
+} from '../../store/slices/form';
 // components
 import { RadioGroupForm, InterestQuestion } from '../../components';
 // constants
@@ -105,9 +109,9 @@ const SectionTwo = () => {
     contactByPhone: Yup.string().required(
       'Por favor informe seu nível de interesse'
     ),
-    contactByApp: Yup.string().required(
-      'Por favor informe seu nível de interesse'
-    ),
+    // contactByApp: Yup.string().required(
+    //   'Por favor informe seu nível de interesse'
+    // ),
     contactByWhatsapp: Yup.string().required(
       'Por favor informe seu nível de interesse'
     ),
@@ -146,6 +150,14 @@ const SectionTwo = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const getAcceptContact = (data) => {
+    if (data === undefined || data === null) return '';
+
+    if (data === 1) return 'yes';
+
+    return 'no';
+  };
+
   const formik = useFormik({
     initialValues: {
       contactByPhone: contactByPhone || '',
@@ -156,18 +168,32 @@ const SectionTwo = () => {
       elapsedTime: elapsedTime || '',
       contactChannel: contactChannel || '',
       incentiveText: incentiveText || '',
-      acceptContact: acceptContact || '',
+      acceptContact: getAcceptContact(acceptContact),
       contact: contact || ''
     },
     validationSchema: fieldSchema,
     enableReinitialize: true,
     onSubmit: (data) => {
+      dispatch(setFilledForm(3));
+      dispatch(
+        changeFormData({
+          ...data,
+          acceptContact: data.acceptContact === 'yes' ? 1 : 0
+        })
+      );
       history.push('/form/section-three');
-      dispatch(changeFormData(data));
     }
   });
 
   const { errors, touched, values, handleSubmit, getFieldProps } = formik;
+
+  useEffect(() => {
+    dispatch(setStep(1));
+  }, [dispatch]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>

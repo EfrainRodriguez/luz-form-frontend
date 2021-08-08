@@ -23,7 +23,12 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import * as Yup from 'yup';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { changeFormData, fetchFormList } from '../../store/slices/form';
+import {
+  changeFormData,
+  fetchFormList,
+  setStep,
+  setFilledForm
+} from '../../store/slices/form';
 // components
 import {
   RadioGroupForm,
@@ -200,7 +205,7 @@ const SectionOne = () => {
       1,
       'Por favor informe ao menos um resposável'
     ),
-    contactResponsible: Yup.string().required(
+    contactedResponsible: Yup.string().required(
       'Por favor informe se já tentou contatar os responsáveis'
     )
   });
@@ -215,12 +220,27 @@ const SectionOne = () => {
       problemSolution,
       problemCause,
       problemResponsible,
-      contactResponsible,
+      contactedResponsible,
       problemContacting
     }
   } = useSelector((state) => state.form);
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const getContactedResponsible = (data) => {
+    if (data === undefined || data === null) return '';
+
+    if (data === 1) return 'yes';
+
+    return 'no';
+  };
+
+  const getInitialProblemArea = (data) => {
+    const values = data && data.split(',');
+    return values && values.length > 0
+      ? problemAreaOptions.filter((item) => values.includes(item.value))
+      : [];
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -228,18 +248,27 @@ const SectionOne = () => {
       age: age || '',
       schoolLevel: schoolLevel || '',
       problem: problem || '',
-      problemArea: problemArea || [],
+      problemArea: getInitialProblemArea(problemArea),
       problemSolution: problemSolution || '',
       problemCause: problemCause || '',
-      problemResponsible: problemResponsible || [],
-      contactResponsible: contactResponsible || '',
+      problemResponsible:
+        (problemResponsible && problemResponsible.split(',')) || [],
+      contactedResponsible: getContactedResponsible(contactedResponsible),
       problemContacting: problemContacting || ''
     },
     validationSchema: fieldSchema,
     enableReinitialize: true,
     onSubmit: (data) => {
+      dispatch(setFilledForm(2));
+      dispatch(
+        changeFormData({
+          ...data,
+          problemArea: data.problemArea.map((item) => item.value).toString(),
+          problemResponsible: data.problemResponsible.toString(),
+          contactedResponsible: data.contactedResponsible === 'yes' ? 1 : 0
+        })
+      );
       history.push('/form/section-two');
-      dispatch(changeFormData(data));
     }
   });
 
@@ -267,7 +296,12 @@ const SectionOne = () => {
 
   useEffect(() => {
     dispatch(fetchFormList());
+    dispatch(setStep(0));
   }, [dispatch]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>
@@ -324,7 +358,7 @@ const SectionOne = () => {
           <Card sx={{ mb: 4 }}>
             <CardContent>
               <Grid container>
-                <Grid item xs={24} sm={4} md={4}>
+                <Grid item sm={4} md={4}>
                   <Typography mb={1} variant="h6">
                     Qual a sua idade?
                   </Typography>
@@ -348,7 +382,7 @@ const SectionOne = () => {
           <Card sx={{ mb: 4 }}>
             <CardContent>
               <Grid container>
-                <Grid item xs={24} sm={4} md={4}>
+                <Grid item sm={4} md={4}>
                   <FormControl
                     fullWidth
                     variant="outlined"
@@ -510,19 +544,19 @@ const SectionOne = () => {
             <CardContent>
               <FormControl>
                 <RadioGroupForm
-                  name="contactResponsible"
+                  name="contactedResponsible"
                   label="Você já tentou contatar os responsáveis por resolvê-los?"
                   values={values}
                   touched={touched}
                   errors={errors}
                   options={contactResponsibleOptions}
-                  fieldProps={getFieldProps('contactResponsible')}
+                  fieldProps={getFieldProps('contactedResponsible')}
                 />
               </FormControl>
             </CardContent>
           </Card>
 
-          {values['contactResponsible'] === 'yes' ? (
+          {values['contactedResponsible'] === 'yes' ? (
             <Card sx={{ mb: 4 }}>
               <CardContent>
                 <Typography mb={1} variant="h6">
@@ -571,7 +605,7 @@ SectionOne.propTypes = {
   problemSolution: PropTypes.string,
   problemCause: PropTypes.string,
   problemResponsible: PropTypes.array,
-  contactResponsible: PropTypes.string,
+  contactedResponsible: PropTypes.string,
   problemContacting: PropTypes.string,
   onSubmit: PropTypes.func
 };

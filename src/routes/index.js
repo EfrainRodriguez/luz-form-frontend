@@ -7,6 +7,8 @@ import PageLayout from '../layouts';
 import { PATH_FORM } from './paths';
 // loading page
 import LoadingPage from '../pages/LoadingPage';
+// guards
+import PageGuard from '../guards/PageGuard';
 
 export const renderRoutes = (routes = []) => (
   <Suspense fallback={<LoadingPage />}>
@@ -47,15 +49,24 @@ export const routes = [
   },
   {
     exact: true,
+    guard: PageGuard,
     layout: PageLayout,
     path: PATH_FORM.sectionTwo,
     component: lazy(() => import('../pages/sections/SectionTwo'))
   },
   {
     exact: true,
+    guard: PageGuard,
     layout: PageLayout,
     path: PATH_FORM.sectionThree,
     component: lazy(() => import('../pages/sections/SectionThree'))
+  },
+  {
+    exact: true,
+    guard: PageGuard,
+    layout: PageLayout,
+    path: PATH_FORM.final,
+    component: lazy(() => import('../pages/FinalPage'))
   },
   {
     exact: true,

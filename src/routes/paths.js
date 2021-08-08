@@ -6,5 +6,6 @@ export const PATH_FORM = {
   root: ROOT_FORM,
   sectionOne: path(ROOT_FORM, '/section-one'),
   sectionTwo: path(ROOT_FORM, '/section-two'),
-  sectionThree: path(ROOT_FORM, '/section-three')
+  sectionThree: path(ROOT_FORM, '/section-three'),
+  final: path(ROOT_FORM, '/final')
 };
