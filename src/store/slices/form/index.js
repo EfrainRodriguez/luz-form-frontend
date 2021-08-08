@@ -1,0 +1,93 @@
+import { createSlice } from '@reduxjs/toolkit';
+// axios
+import { api, viacep } from '../../../utils/axios';
+
+export const formSlice = createSlice({
+  name: 'form',
+  initialState: {
+    formData: {},
+    isLoading: false
+  },
+  reducers: {
+    setFormData: (state, action) => {
+      state.formData = action.payload;
+    },
+    changeFormData: (state, action) => {
+      state.formData = {
+        ...state.formData,
+        ...action.payload
+      };
+    },
+    setLoading: (state, action) => {
+      state.isLoading = action.payload;
+    }
+  }
+});
+
+export const { setFormData, changeFormData, setLoading } = formSlice.actions;
+
+export default formSlice.reducer;
+
+export const searchAddressByZipcode = (zipCode) => (dispatch) => {
+  dispatch(setLoading(true));
+  return new Promise((resolve, reject) => {
+    viacep
+      .get(`/ws/${zipCode}/json/`)
+      .then((response) => {
+        dispatch(setLoading(false));
+        dispatch(
+          changeFormData({
+            zipCode: response.data.cep,
+            address: response.data.logradouro,
+            number: response.data.numero,
+            neighborhood: response.data.bairro,
+            complement: response.data.complemento,
+            state: response.data.uf,
+            city: response.data.localidade
+          })
+        );
+        resolve(response);
+      })
+      .catch((error) => {
+        dispatch(setLoading(false));
+        reject(error);
+      });
+  });
+};
+
+export const fetchFormList = () => (dispatch) => {
+  dispatch(setLoading(true));
+  return new Promise((resolve, reject) => {
+    api
+      .get(`/`)
+      .then((response) => {
+        dispatch(setLoading(false));
+        resolve(response);
+      })
+      .catch((error) => {
+        dispatch(setLoading(false));
+        reject(error);
+      });
+  });
+};
+
+export const sendFormData = () => (dispatch, getState) => {
+  const {
+    form: { formData }
+  } = getState();
+
+  dispatch(setLoading(true));
+
+  return new Promise((resolve, reject) => {
+    api
+      .post(`/`, formData)
+      .then((response) => {
+        dispatch(setLoading(false));
+        resolve(response);
+      })
+      .catch((error) => {
+        dispatch(setLoading(false));
+        reject(error);
+      });
+  });
+};

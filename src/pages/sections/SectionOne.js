@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // router
 import { useHistory } from 'react-router-dom';
 // prop types
@@ -15,13 +15,15 @@ import {
   Autocomplete,
   FormControlLabel,
   Checkbox,
-  RadioGroup,
-  Radio
+  Grid
 } from '@material-ui/core';
 // formik
 import { useFormik, Form, FormikProvider } from 'formik';
 // yup
 import * as Yup from 'yup';
+// redux
+import { useDispatch, useSelector } from 'react-redux';
+import { changeFormData, fetchFormList } from '../../store/slices/form';
 // components
 import {
   RadioGroupForm,
@@ -176,19 +178,7 @@ const contactResponsibleOptions = [
   }
 ];
 
-const SectionOne = ({
-  gender,
-  age,
-  schoolLevel,
-  problem,
-  problemArea,
-  problemSolution,
-  problemCause,
-  problemResponsible,
-  contactResponsible,
-  problemContacting,
-  onSubmit
-}) => {
+const SectionOne = () => {
   const fieldSchema = Yup.object().shape({
     gender: Yup.string().required('Por favor informe seu gênero'),
     age: Yup.number().required('Por favor informe sua idade'),
@@ -215,6 +205,21 @@ const SectionOne = ({
     )
   });
 
+  const {
+    formData: {
+      gender,
+      age,
+      schoolLevel,
+      problem,
+      problemArea,
+      problemSolution,
+      problemCause,
+      problemResponsible,
+      contactResponsible,
+      problemContacting
+    }
+  } = useSelector((state) => state.form);
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const formik = useFormik({
@@ -231,9 +236,10 @@ const SectionOne = ({
       problemContacting: problemContacting || ''
     },
     validationSchema: fieldSchema,
+    enableReinitialize: true,
     onSubmit: (data) => {
       history.push('/form/section-two');
-      // onSubmit(data)
+      dispatch(changeFormData(data));
     }
   });
 
@@ -258,6 +264,10 @@ const SectionOne = ({
       values['problemResponsible'].filter((item) => item !== event.target.name)
     );
   };
+
+  useEffect(() => {
+    dispatch(fetchFormList());
+  }, [dispatch]);
 
   return (
     <>
@@ -313,39 +323,51 @@ const SectionOne = ({
 
           <Card sx={{ mb: 4 }}>
             <CardContent>
-              <Typography mb={1} variant="h6">
-                Qual a sua idade?
-              </Typography>
-              <TextField
-                name="age"
-                type="number"
-                placeholder="Informe sua idade"
-                {...getFieldProps('age')}
-                error={Boolean(touched.age && errors.age)}
-                helperText={touched.age && errors.age}
-                InputLabelProps={{
-                  shrink: true
-                }}
-              />
+              <Grid container>
+                <Grid item xs={24} sm={4} md={4}>
+                  <Typography mb={1} variant="h6">
+                    Qual a sua idade?
+                  </Typography>
+                  <TextField
+                    fullWidth
+                    name="age"
+                    type="number"
+                    placeholder="Informe sua idade"
+                    {...getFieldProps('age')}
+                    error={Boolean(touched.age && errors.age)}
+                    helperText={touched.age && errors.age}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+                </Grid>
+              </Grid>
             </CardContent>
           </Card>
 
           <Card sx={{ mb: 4 }}>
             <CardContent>
-              <FormControl
-                variant="outlined"
-                error={Boolean(touched['schoolLevel'] && errors['schoolLevel'])}
-              >
-                <SelectForm
-                  name="schoolLevel"
-                  label="Qual o sua escolaridade?"
-                  values={values}
-                  touched={touched}
-                  errors={errors}
-                  options={schoolLevelOptions}
-                  fieldProps={getFieldProps('schoolLevel')}
-                />
-              </FormControl>
+              <Grid container>
+                <Grid item xs={24} sm={4} md={4}>
+                  <FormControl
+                    fullWidth
+                    variant="outlined"
+                    error={Boolean(
+                      touched['schoolLevel'] && errors['schoolLevel']
+                    )}
+                  >
+                    <SelectForm
+                      name="schoolLevel"
+                      label="Qual o sua escolaridade?"
+                      values={values}
+                      touched={touched}
+                      errors={errors}
+                      options={schoolLevelOptions}
+                      fieldProps={getFieldProps('schoolLevel')}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
             </CardContent>
           </Card>
 

@@ -17,6 +17,9 @@ import {
 import { useFormik, Form, FormikProvider } from 'formik';
 // yup
 import * as Yup from 'yup';
+// redux
+import { useDispatch, useSelector } from 'react-redux';
+import { changeFormData } from '../../store/slices/form';
 // components
 import { RadioGroupForm, InterestQuestion } from '../../components';
 // constants
@@ -97,18 +100,7 @@ const acceptContactOptions = [
   }
 ];
 
-const SectionTwo = ({
-  contactByPhone,
-  contactByApp,
-  contactByWhatsapp,
-  contactByChatbot,
-  contactByWebpage,
-  elapsedTime,
-  contactChannel,
-  incentiveText,
-  acceptContact,
-  contact
-}) => {
+const SectionTwo = () => {
   const fieldSchema = Yup.object().shape({
     contactByPhone: Yup.string().required(
       'Por favor informe seu nível de interesse'
@@ -137,6 +129,21 @@ const SectionTwo = ({
     )
   });
 
+  const {
+    formData: {
+      contactByPhone,
+      contactByApp,
+      contactByWhatsapp,
+      contactByChatbot,
+      contactByWebpage,
+      elapsedTime,
+      contactChannel,
+      incentiveText,
+      acceptContact,
+      contact
+    }
+  } = useSelector((state) => state.form);
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const formik = useFormik({
@@ -153,20 +160,14 @@ const SectionTwo = ({
       contact: contact || ''
     },
     validationSchema: fieldSchema,
+    enableReinitialize: true,
     onSubmit: (data) => {
       history.push('/form/section-three');
-      // onSubmit(data)
+      dispatch(changeFormData(data));
     }
   });
 
-  const {
-    errors,
-    touched,
-    values,
-    handleSubmit,
-    getFieldProps,
-    setFieldValue
-  } = formik;
+  const { errors, touched, values, handleSubmit, getFieldProps } = formik;
 
   return (
     <>
