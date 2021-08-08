@@ -25,7 +25,8 @@ import {
   changeFormData,
   searchAddressByZipcode,
   sendFormData,
-  setStep
+  setStep,
+  setFilledForm
 } from '../../store/slices/form';
 // loading page
 import LoadingPage from '../LoadingPage';
@@ -69,6 +70,7 @@ const SectionThree = () => {
     onSubmit: (data) => {
       dispatch(changeFormData(data));
       dispatch(sendFormData()).then(() => {
+        dispatch(setFilledForm(4));
         history.push('/form/final');
       });
     }

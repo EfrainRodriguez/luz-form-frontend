@@ -26,7 +26,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   changeFormData,
   fetchFormList,
-  setStep
+  setStep,
+  setFilledForm
 } from '../../store/slices/form';
 // components
 import {
@@ -258,8 +259,7 @@ const SectionOne = () => {
     validationSchema: fieldSchema,
     enableReinitialize: true,
     onSubmit: (data) => {
-      console.log('aqui', data);
-      history.push('/form/section-two');
+      dispatch(setFilledForm(2));
       dispatch(
         changeFormData({
           ...data,
@@ -268,6 +268,7 @@ const SectionOne = () => {
           contactedResponsible: data.contactedResponsible === 'yes'
         })
       );
+      history.push('/form/section-two');
     }
   });
 
@@ -304,7 +305,6 @@ const SectionOne = () => {
 
   return (
     <>
-      {console.log(values)}
       <Box mb={2}>
         <Typography mb={2} align="center" variant="h4">
           Quero contar meu problema!

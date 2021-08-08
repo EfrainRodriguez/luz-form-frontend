@@ -7,6 +7,7 @@ export const formSlice = createSlice({
   initialState: {
     formData: {},
     step: 0,
+    filledForm: 1,
     isLoading: false
   },
   reducers: {
@@ -24,12 +25,20 @@ export const formSlice = createSlice({
     },
     setStep: (state, action) => {
       state.step = action.payload;
+    },
+    setFilledForm: (state, action) => {
+      state.filledForm = action.payload;
     }
   }
 });
 
-export const { setFormData, changeFormData, setLoading, setStep } =
-  formSlice.actions;
+export const {
+  setFormData,
+  changeFormData,
+  setLoading,
+  setStep,
+  setFilledForm
+} = formSlice.actions;
 
 export default formSlice.reducer;
 

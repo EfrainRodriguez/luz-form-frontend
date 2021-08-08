@@ -19,7 +19,11 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import * as Yup from 'yup';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { changeFormData, setStep } from '../../store/slices/form';
+import {
+  changeFormData,
+  setStep,
+  setFilledForm
+} from '../../store/slices/form';
 // components
 import { RadioGroupForm, InterestQuestion } from '../../components';
 // constants
@@ -170,13 +174,14 @@ const SectionTwo = () => {
     validationSchema: fieldSchema,
     enableReinitialize: true,
     onSubmit: (data) => {
-      history.push('/form/section-three');
+      dispatch(setFilledForm(3));
       dispatch(
         changeFormData({
           ...data,
           acceptContact: data.acceptContact === 'yes'
         })
       );
+      history.push('/form/section-three');
     }
   });
 
