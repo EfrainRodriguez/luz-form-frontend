@@ -24,7 +24,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   changeFormData,
   searchAddressByZipcode,
-  sendFormData
+  sendFormData,
+  setStep
 } from '../../store/slices/form';
 // loading page
 import LoadingPage from '../LoadingPage';
@@ -78,6 +79,10 @@ const SectionThree = () => {
   const handleSearchAddress = (searchParam) => {
     dispatch(searchAddressByZipcode(searchParam.replace(/\D/g, '')));
   };
+
+  useEffect(() => {
+    dispatch(setStep(2));
+  }, [dispatch]);
 
   useEffect(() => {
     window.scrollTo(0, 0);

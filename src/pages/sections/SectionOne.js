@@ -23,7 +23,11 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import * as Yup from 'yup';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { changeFormData, fetchFormList } from '../../store/slices/form';
+import {
+  changeFormData,
+  fetchFormList,
+  setStep
+} from '../../store/slices/form';
 // components
 import {
   RadioGroupForm,
@@ -291,6 +295,7 @@ const SectionOne = () => {
 
   useEffect(() => {
     dispatch(fetchFormList());
+    dispatch(setStep(0));
   }, [dispatch]);
 
   useEffect(() => {

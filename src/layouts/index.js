@@ -3,7 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // material
 import { styled } from '@material-ui/core/styles';
-import { Container } from '@material-ui/core';
+import { Container, Stepper, Step, StepLabel } from '@material-ui/core';
+// redux
+import { useSelector } from 'react-redux';
 // layout
 import PageHeader from './PageHeader';
 import SectionCard from './SectionCard';
@@ -22,14 +24,33 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ---------------------------------------------------------
 
-const PageLayout = ({ children }) => (
-  <Container>
-    <ContentStyle>
-      <PageHeader />
-      <SectionCard>{children}</SectionCard>
-    </ContentStyle>
-  </Container>
-);
+const steps = ['Dados gerais', 'Preferências de contato', 'Endereço'];
+
+const PageLayout = ({ children }) => {
+  const { step } = useSelector((state) => state.form);
+  return (
+    <Container>
+      <ContentStyle>
+        <PageHeader />
+        <Stepper activeStep={step} sx={{ marginBottom: '32px' }}>
+          {steps.map((label, index) => (
+            <Step key={index}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        <SectionCard>{children}</SectionCard>
+        <Stepper activeStep={step} sx={{ marginTop: '32px' }}>
+          {steps.map((label, index) => (
+            <Step key={index}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+      </ContentStyle>
+    </Container>
+  );
+};
 
 PageLayout.propTypes = {
   children: PropTypes.node

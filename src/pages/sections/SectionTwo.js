@@ -19,7 +19,7 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import * as Yup from 'yup';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { changeFormData } from '../../store/slices/form';
+import { changeFormData, setStep } from '../../store/slices/form';
 // components
 import { RadioGroupForm, InterestQuestion } from '../../components';
 // constants
@@ -181,6 +181,10 @@ const SectionTwo = () => {
   });
 
   const { errors, touched, values, handleSubmit, getFieldProps } = formik;
+
+  useEffect(() => {
+    dispatch(setStep(1));
+  }, [dispatch]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
