@@ -9,7 +9,7 @@ import { Card } from '@material-ui/core';
 
 const CardStyle = styled(Card)(({ theme }) => ({
   maxWidth: 900,
-  minHeight: 600,
+  minHeight: 'max-content',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'start',

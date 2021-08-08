@@ -59,6 +59,12 @@ export const routes = [
   },
   {
     exact: true,
+    layout: PageLayout,
+    path: PATH_FORM.final,
+    component: lazy(() => import('../pages/FinalPage'))
+  },
+  {
+    exact: true,
     path: '*',
     component: () => <Redirect to={PATH_FORM.sectionOne} />
   }
