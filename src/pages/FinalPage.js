@@ -4,11 +4,16 @@ import { useHistory } from 'react-router-dom';
 // material
 import { Typography, Button, Box } from '@material-ui/core';
 import { CheckCircleOutline } from '@material-ui/icons';
+// redux
+import { useDispatch } from 'react-redux';
+import { setFormData } from '../store/slices/form';
 
 const FinalPage = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const handleRedirect = () => {
+    dispatch(setFormData({}));
     history.push('/form/section-one');
   };
 

@@ -59,7 +59,7 @@ export const fetchFormList = () => (dispatch) => {
   dispatch(setLoading(true));
   return new Promise((resolve, reject) => {
     api
-      .get(`/`)
+      .get(`/form/problem`)
       .then((response) => {
         dispatch(setLoading(false));
         resolve(response);
@@ -80,7 +80,7 @@ export const sendFormData = () => (dispatch, getState) => {
 
   return new Promise((resolve, reject) => {
     api
-      .post(`/`, formData)
+      .post(`/form/problem`, formData)
       .then((response) => {
         dispatch(setLoading(false));
         resolve(response);

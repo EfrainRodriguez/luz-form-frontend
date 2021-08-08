@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // router
 import { useHistory } from 'react-router-dom';
 // prop types
@@ -66,9 +66,10 @@ const SectionThree = () => {
     enableReinitialize: true,
     validationSchema: fieldSchema,
     onSubmit: (data) => {
-      console.log(data);
       dispatch(changeFormData(data));
-      dispatch(sendFormData());
+      dispatch(sendFormData()).then(() => {
+        history.push('/form/final');
+      });
     }
   });
 
@@ -77,6 +78,10 @@ const SectionThree = () => {
   const handleSearchAddress = (searchParam) => {
     dispatch(searchAddressByZipcode(searchParam.replace(/\D/g, '')));
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>

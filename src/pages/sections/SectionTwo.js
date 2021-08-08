@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // router
 import { useHistory } from 'react-router-dom';
 // prop types
@@ -105,9 +105,9 @@ const SectionTwo = () => {
     contactByPhone: Yup.string().required(
       'Por favor informe seu nível de interesse'
     ),
-    contactByApp: Yup.string().required(
-      'Por favor informe seu nível de interesse'
-    ),
+    // contactByApp: Yup.string().required(
+    //   'Por favor informe seu nível de interesse'
+    // ),
     contactByWhatsapp: Yup.string().required(
       'Por favor informe seu nível de interesse'
     ),
@@ -146,6 +146,14 @@ const SectionTwo = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const getAcceptContact = (data) => {
+    if (data === undefined || data === null) return '';
+
+    if (data === true) return 'yes';
+
+    return 'no';
+  };
+
   const formik = useFormik({
     initialValues: {
       contactByPhone: contactByPhone || '',
@@ -156,18 +164,27 @@ const SectionTwo = () => {
       elapsedTime: elapsedTime || '',
       contactChannel: contactChannel || '',
       incentiveText: incentiveText || '',
-      acceptContact: acceptContact || '',
+      acceptContact: getAcceptContact(acceptContact),
       contact: contact || ''
     },
     validationSchema: fieldSchema,
     enableReinitialize: true,
     onSubmit: (data) => {
       history.push('/form/section-three');
-      dispatch(changeFormData(data));
+      dispatch(
+        changeFormData({
+          ...data,
+          acceptContact: data.acceptContact === 'yes'
+        })
+      );
     }
   });
 
   const { errors, touched, values, handleSubmit, getFieldProps } = formik;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>
@@ -195,7 +212,7 @@ const SectionTwo = () => {
             </CardContent>
           </Card>
 
-          <Card sx={{ mb: 4 }}>
+          {/* <Card sx={{ mb: 4 }}>
             <CardContent>
               <InterestQuestion
                 name="contactByApp"
@@ -207,7 +224,7 @@ const SectionTwo = () => {
                 label="APP - Um aplicativo onde você colocaria fotos e detalhes sobre os seu problema e enviaria diretamente para os responsáveis, podendo interagir com outras pessoas do seu bairro que também passam pelo mesmo problema."
               />
             </CardContent>
-          </Card>
+          </Card> */}
 
           <Card sx={{ mb: 4 }}>
             <CardContent>
