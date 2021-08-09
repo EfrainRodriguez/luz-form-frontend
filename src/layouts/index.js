@@ -43,7 +43,7 @@ const PageLayout = ({ children }) => {
         )}
         <SectionCard>{children}</SectionCard>
         {!(step === 3) && (
-          <Stepper activeStep={step} sx={{ marginBottom: '32px' }}>
+          <Stepper activeStep={step} sx={{ marginTop: '32px' }}>
             {steps.map((label, index) => (
               <Step key={index}>
                 <StepLabel>{label}</StepLabel>
