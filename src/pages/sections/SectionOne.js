@@ -69,7 +69,7 @@ const schoolLevelOptions = [
     value: 'incompleteHighSchool'
   },
   {
-    label: 'Ensino superiorcompleto',
+    label: 'Ensino superior completo',
     value: 'completeUniversity'
   },
   {

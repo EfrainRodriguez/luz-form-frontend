@@ -32,7 +32,7 @@ const PageLayout = ({ children }) => {
     <Container>
       <ContentStyle>
         <PageHeader />
-        {!step === 3 && (
+        {!(step === 3) && (
           <Stepper activeStep={step} sx={{ marginBottom: '32px' }}>
             {steps.map((label, index) => (
               <Step key={index}>
@@ -42,7 +42,7 @@ const PageLayout = ({ children }) => {
           </Stepper>
         )}
         <SectionCard>{children}</SectionCard>
-        {!step === 3 && (
+        {!(step === 3) && (
           <Stepper activeStep={step} sx={{ marginBottom: '32px' }}>
             {steps.map((label, index) => (
               <Step key={index}>
