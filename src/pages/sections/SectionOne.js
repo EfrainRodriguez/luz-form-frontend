@@ -358,7 +358,7 @@ const SectionOne = () => {
           <Card sx={{ mb: 4 }}>
             <CardContent>
               <Grid container>
-                <Grid item sm={4} md={4}>
+                <Grid item xs={12} sm={4} md={4}>
                   <Typography mb={1} variant="h6">
                     Qual a sua idade?
                   </Typography>
@@ -382,7 +382,7 @@ const SectionOne = () => {
           <Card sx={{ mb: 4 }}>
             <CardContent>
               <Grid container>
-                <Grid item sm={4} md={4}>
+                <Grid item xs={12} sm={4} md={4}>
                   <FormControl
                     fullWidth
                     variant="outlined"
