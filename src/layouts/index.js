@@ -9,6 +9,8 @@ import { useSelector } from 'react-redux';
 // layout
 import PageHeader from './PageHeader';
 import SectionCard from './SectionCard';
+// hooks
+import useWindowDimensions from '../hooks/useWindowDimensions';
 
 // ---------------------------------------------------------
 
@@ -28,12 +30,19 @@ const steps = ['Dados gerais', 'Preferências de contato', 'Endereço'];
 
 const PageLayout = ({ children }) => {
   const { step } = useSelector((state) => state.form);
+
+  const { width } = useWindowDimensions();
+
   return (
     <Container>
       <ContentStyle>
         <PageHeader />
         {!(step === 3) && (
-          <Stepper activeStep={step} sx={{ marginBottom: '32px' }}>
+          <Stepper
+            activeStep={step}
+            sx={{ marginBottom: '32px' }}
+            orientation={width < 690 ? 'vertical' : 'horizontal'}
+          >
             {steps.map((label, index) => (
               <Step key={index}>
                 <StepLabel>{label}</StepLabel>
@@ -43,7 +52,11 @@ const PageLayout = ({ children }) => {
         )}
         <SectionCard>{children}</SectionCard>
         {!(step === 3) && (
-          <Stepper activeStep={step} sx={{ marginTop: '32px' }}>
+          <Stepper
+            activeStep={step}
+            sx={{ marginTop: '32px' }}
+            orientation={width < 690 ? 'vertical' : 'horizontal'}
+          >
             {steps.map((label, index) => (
               <Step key={index}>
                 <StepLabel>{label}</StepLabel>
