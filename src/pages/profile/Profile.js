@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 // material
-import { Container, Tabs, Tab, Typography, Box } from '@material-ui/core';
-import { AccountBox, VpnKey, Settings } from '@material-ui/icons';
+import { Container, Tabs, Tab, Box } from '@material-ui/core';
+import { AccountBox, VpnKey } from '@material-ui/icons';
 // notistack
-import { useSnackbar } from 'notistack';
+// import { useSnackbar } from 'notistack';
 // redux
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 // import { updatePassword, logout } from '../../store/slices/auth';
 // custom components
 import { Page, ProfileGeneral, ProfileChangePassword } from '../../components';
@@ -13,11 +13,11 @@ import { Page, ProfileGeneral, ProfileChangePassword } from '../../components';
 const Profile = () => {
   const [currentTab, setCurrentTab] = useState('general');
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const { enqueueSnackbar } = useSnackbar();
+  // const { enqueueSnackbar } = useSnackbar();
 
-  const handleChangePassword = (data) => {
+  const handleChangePassword = () => {
     // dispatch(updatePassword(data))
     //   .then(() => {
     //     enqueueSnackbar(

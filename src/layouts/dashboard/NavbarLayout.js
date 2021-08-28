@@ -9,7 +9,6 @@ import {
   Hidden,
   Toolbar,
   IconButton,
-  Typography,
   Switch
 } from '@material-ui/core';
 import { Menu, Brightness4, Brightness5 } from '@material-ui/icons';

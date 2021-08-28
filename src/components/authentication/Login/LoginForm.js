@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 // prop types
 import PropTypes from 'prop-types';
 // router
-import { Link as RouterLInk } from 'react-router-dom';
+// import { Link as RouterLInk } from 'react-router-dom';
 // material
 import {
   TextField,
@@ -11,8 +11,8 @@ import {
   Button,
   FormControlLabel,
   Checkbox,
-  Box,
-  Link
+  Box
+  // Link
 } from '@material-ui/core';
 import { Visibility, VisibilityOff, Person, Lock } from '@material-ui/icons';
 // input mask
@@ -22,7 +22,7 @@ import { useFormik, Form, FormikProvider } from 'formik';
 // yup
 import * as Yup from 'yup';
 // paths
-import { PATH_AUTH } from '../../../routes/paths';
+// import { PATH_AUTH } from '../../../routes/paths';
 
 const LoginForm = ({ email, remember, documentNumber, onSubmit }) => {
   const [showPassword, setShowPassword] = useState(false);

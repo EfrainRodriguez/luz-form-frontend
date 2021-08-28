@@ -78,7 +78,7 @@ const FormList = () => {
 
   const handleNewForm = () => history.push(PATH_FORM.userSectionOne);
 
-  const handleChangeRowsPerPage = (rowsPerPage) => {};
+  const handleChangeRowsPerPage = () => {};
 
   useEffect(() => {
     dispatch(fetchFormList());

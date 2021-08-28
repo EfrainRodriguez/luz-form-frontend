@@ -12,7 +12,7 @@ import { LoginForm } from '../../components';
 // pages
 import LoadingPage from '../LoadingPage';
 // util
-import { getErrorObject } from '../../utils/errors';
+// import { getErrorObject } from '../../utils/errors';
 
 // ----------------------------------------------------------------------
 
@@ -42,7 +42,7 @@ export default () => {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
-  const onSubmit = (data, { setErrors }) => {
+  const onSubmit = (data) => {
     const { email, password, remember, documentNumber } = data;
     dispatch(setRemember(remember));
     dispatch(
@@ -57,7 +57,7 @@ export default () => {
           variant: 'success'
         });
       })
-      .catch((error) => {
+      .catch(() => {
         enqueueSnackbar(
           'Por favor verifique sus credenciais e tente novamente',
           {
