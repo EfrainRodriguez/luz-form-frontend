@@ -6,13 +6,13 @@ import { Redirect } from 'react-router-dom';
 // redux
 import { useSelector } from 'react-redux';
 // paths
-import { PATH_HOME } from '../../routes/paths';
+import { PATH_FORM } from '../../routes/paths';
 
 const LoggedGuard = ({ children }) => {
   const { isAuthenticated } = useSelector((state) => state.auth);
 
   if (isAuthenticated) {
-    return <Redirect to={PATH_HOME.root} />;
+    return <Redirect to={PATH_FORM.list} />;
   }
 
   return <>{children}</>;

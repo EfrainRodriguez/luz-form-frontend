@@ -6,6 +6,7 @@ export const formSlice = createSlice({
   name: 'form',
   initialState: {
     formData: {},
+    formList: [],
     step: 0,
     filledForm: 1,
     isLoading: false
@@ -28,6 +29,9 @@ export const formSlice = createSlice({
     },
     setFilledForm: (state, action) => {
       state.filledForm = action.payload;
+    },
+    setFormList: (state, action) => {
+      state.formList = action.payload;
     }
   }
 });
@@ -37,7 +41,8 @@ export const {
   changeFormData,
   setLoading,
   setStep,
-  setFilledForm
+  setFilledForm,
+  setFormList
 } = formSlice.actions;
 
 export default formSlice.reducer;
@@ -76,6 +81,7 @@ export const fetchFormList = () => (dispatch) => {
       .get(`/form/problem`)
       .then((response) => {
         dispatch(setLoading(false));
+        dispatch(setFormList(response.data.data));
         resolve(response);
       })
       .catch((error) => {

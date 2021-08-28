@@ -5,6 +5,7 @@ import storage from 'redux-persist/lib/storage';
 // slices
 import settings from './slices/settings';
 import form from './slices/form';
+import auth from './slices/auth';
 
 // persist config -------------------------------------------
 const settingsPersistConfig = {
@@ -12,12 +13,25 @@ const settingsPersistConfig = {
   storage
 };
 
+const authPersistConfig = {
+  key: 'auth',
+  storage,
+  whitelist: [
+    'user',
+    'remember',
+    'accessToken',
+    'refreshToken',
+    'isAuthenticated'
+  ]
+};
+
 // ----------------------------------------------------------
 
 const store = configureStore({
   reducer: {
     settings: persistReducer(settingsPersistConfig, settings),
-    form
+    form,
+    auth: persistReducer(authPersistConfig, auth)
   },
   middleware: getDefaultMiddleware({
     serializableCheck: false,
