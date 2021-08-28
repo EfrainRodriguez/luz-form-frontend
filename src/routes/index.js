@@ -3,12 +3,15 @@ import React, { Fragment, Suspense, lazy } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 // layout
 import PageLayout from '../layouts';
+import DashboardLayout from '../layouts/dashboard';
 // paths
-import { PATH_FORM } from './paths';
+import { PATH_FORM, PATH_AUTH, PATH_PROFILE } from './paths';
 // loading page
 import LoadingPage from '../pages/LoadingPage';
 // guards
 import PageGuard from '../guards/PageGuard';
+import LoggedGuard from '../guards/LoggedGuard';
+import AuthGuard from '../guards/AuthGuard';
 
 export const renderRoutes = (routes = []) => (
   <Suspense fallback={<LoadingPage />}>
@@ -41,6 +44,14 @@ export const renderRoutes = (routes = []) => (
 );
 
 export const routes = [
+  // auth --------------------------------------------------
+  {
+    exact: true,
+    path: PATH_AUTH.login,
+    guard: LoggedGuard,
+    component: lazy(() => import('../pages/authentication/Login'))
+  },
+  // form --------------------------------------------------
   {
     exact: true,
     layout: PageLayout,
@@ -67,6 +78,48 @@ export const routes = [
     layout: PageLayout,
     path: PATH_FORM.final,
     component: lazy(() => import('../pages/FinalPage'))
+  },
+  // dashboard --------------------------------------------------
+  {
+    guard: AuthGuard,
+    layout: DashboardLayout,
+    routes: [
+      {
+        exact: true,
+        path: '/',
+        component: () => <Redirect to={PATH_FORM.list} />
+      },
+      {
+        exact: true,
+        path: PATH_FORM.list,
+        component: lazy(() => import('../pages/form/FormList'))
+      },
+      {
+        exact: true,
+        path: PATH_FORM.userSectionOne,
+        component: lazy(() => import('../pages/form/SectionOne'))
+      },
+      {
+        exact: true,
+        path: PATH_FORM.userSectionTwo,
+        component: lazy(() => import('../pages/form/SectionTwo'))
+      },
+      {
+        exact: true,
+        path: PATH_FORM.userSectionThree,
+        component: lazy(() => import('../pages/form/SectionThree'))
+      },
+      {
+        exact: true,
+        path: PATH_FORM.userFinal,
+        component: lazy(() => import('../pages/form/FinalPage'))
+      },
+      {
+        exact: true,
+        path: PATH_PROFILE.root,
+        component: lazy(() => import('../pages/profile/Profile'))
+      }
+    ]
   },
   {
     exact: true,
